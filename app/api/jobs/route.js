@@ -7,10 +7,10 @@ export async function GET(request) {
   const q      = searchParams.get('q');
   const apiKey = searchParams.get('api_key') || process.env.SERPAPI_KEY;
 
-  // Always return 200 — client falls back to static silently on empty descriptions
   if (!q || !apiKey) return NextResponse.json(EMPTY);
 
-  const url = new URL('https://serpapi.com/search.json');
+  // SearchAPI (searchapi.io) — Google Jobs engine
+  const url = new URL('https://www.searchapi.io/api/v1/search');
   url.searchParams.set('engine', 'google_jobs');
   url.searchParams.set('q', q);
   url.searchParams.set('api_key', apiKey);
@@ -21,13 +21,15 @@ export async function GET(request) {
     if (!res.ok) return NextResponse.json(EMPTY);
 
     const data = await res.json();
-    const jobs = (data.jobs_results || []).slice(0, 10);
+    // SearchAPI returns `jobs`, SerpAPI returns `jobs_results`
+    const jobs = (data.jobs || data.jobs_results || []).slice(0, 10);
 
     if (!jobs.length) return NextResponse.json(EMPTY);
 
     const descriptions = jobs.map(job => {
       const desc       = job.description || '';
-      const highlights = (job.job_highlights || [])
+      // SearchAPI uses `highlights`, SerpAPI uses `job_highlights`
+      const highlights = (job.highlights || job.job_highlights || [])
         .flatMap(h => h.items || [])
         .join(' ');
       return `${desc} ${highlights}`;
