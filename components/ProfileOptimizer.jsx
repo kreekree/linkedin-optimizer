@@ -15,14 +15,20 @@ const SKIP_WORDS = new Set([
   'As','If','About','Up','Out','So','Into','Through','During','Before','After',
   'Above','Below','Between','Each','Both','Few','Any','Most','Some','Only','Same',
   'Including','Like','Well','Across','Within','While','Per','Over','Under',
-  // Generic job-description words that aren't useful keywords
+  // Generic job-description section headers and role nouns
   'Experience','Strong','Excellent','Ability','Skills','Knowledge','Proven',
   'Demonstrated','Required','Preferred','Position','Role','Team','Company',
   'Environment','Job','Candidate','Bachelor','Master','Degree','Years','Please',
   'Apply','Good','Great','Here','There','Join','Help','Work','Working','Build',
   'Ensure','Manage','Lead','Drive','Develop','Support','Partner','Use','Using',
-  'Responsible','Opportunity','Ability','Minimum','Plus','Must','Excellent',
-  'Highly','Fast','Based','Full','Time','Remote','Hybrid','Office','Location',
+  'Responsible','Responsibilities','Opportunity','Minimum','Plus','Highly',
+  'Fast','Based','Full','Time','Remote','Hybrid','Office','Location','Monday',
+  // Role title words that show up in descriptions but aren't keywords
+  'Engineer','Developer','Manager','Designer','Analyst','Specialist','Director',
+  'Coordinator','Associate','Senior','Junior','Staff','Principal','Lead',
+  // Academic / generic
+  'Science','Computer','Technology','Information','Business','Services','Solutions',
+  'Systems','Software','Data','Digital','Global','International','National',
 ]);
 
 // ─── Extract live keywords from SerpApi job descriptions ───────────────────
