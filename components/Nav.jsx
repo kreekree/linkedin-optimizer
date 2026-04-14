@@ -6,12 +6,12 @@ export function Nav() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
           <span className="text-xl">💼</span>
-          <div>
+          <div className="flex flex-col leading-tight">
             <span className="text-sm font-bold text-gray-900 group-hover:text-indigo-600 transition">
               LinkedIn Optimizer
             </span>
-            <span className="hidden sm:inline ml-1.5 text-xs text-gray-400 font-normal">
-              by TrendChaser
+            <span className="text-xs text-gray-400 font-normal">
+              by NoGigiddy
             </span>
           </div>
         </Link>
