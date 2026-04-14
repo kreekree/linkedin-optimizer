@@ -6,11 +6,9 @@ export async function GET(request) {
   // Prefer user-supplied key; fall back to the site owner's server-side key
   const apiKey = searchParams.get('api_key') || process.env.SERPAPI_KEY;
 
-  if (!q) {
-    return NextResponse.json({ error: 'Missing query param' }, { status: 400 });
-  }
-  if (!apiKey) {
-    return NextResponse.json({ error: 'No SerpApi key configured' }, { status: 400 });
+  if (!q || !apiKey) {
+    // Return empty result so the client falls back to static data silently (no console error)
+    return NextResponse.json({ descriptions: [], count: 0 });
   }
 
   const url = new URL('https://serpapi.com/search.json');
