@@ -9,8 +9,8 @@ export async function GET(request) {
 
   if (!q || !apiKey) return NextResponse.json(EMPTY);
 
-  // SearchAPI (searchapi.io) — Google Jobs engine
-  const url = new URL('https://www.searchapi.io/api/v1/search');
+  // SerpAPI (serpapi.com) — Google Jobs engine
+  const url = new URL('https://serpapi.com/search.json');
   url.searchParams.set('engine', 'google_jobs');
   url.searchParams.set('q', q);
   url.searchParams.set('api_key', apiKey);
@@ -21,15 +21,13 @@ export async function GET(request) {
     if (!res.ok) return NextResponse.json(EMPTY);
 
     const data = await res.json();
-    // SearchAPI returns `jobs`, SerpAPI returns `jobs_results`
-    const jobs = (data.jobs || data.jobs_results || []).slice(0, 10);
+    const jobs = (data.jobs_results || []).slice(0, 10);
 
     if (!jobs.length) return NextResponse.json(EMPTY);
 
     const descriptions = jobs.map(job => {
       const desc       = job.description || '';
-      // SearchAPI uses `highlights`, SerpAPI uses `job_highlights`
-      const highlights = (job.highlights || job.job_highlights || [])
+      const highlights = (job.job_highlights || [])
         .flatMap(h => h.items || [])
         .join(' ');
       return `${desc} ${highlights}`;
