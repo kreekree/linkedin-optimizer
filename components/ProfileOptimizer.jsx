@@ -128,16 +128,17 @@ export function ProfileOptimizer() {
     setIsLoading(true);
     try {
       const res = await fetch(`/api/jobs?q=${encodeURIComponent(roleInput)}`);
-      if (!res.ok) throw new Error(`API ${res.status}`);
-      const data = await res.json();
-
-      if (data.descriptions && data.descriptions.length > 0) {
-        keywords = buildLiveKeywords(data.descriptions, family);
-        jobCount = data.count;
-        source   = 'live';
+      // Non-2xx means no key configured or SerpApi error — use fallback silently
+      if (res.ok) {
+        const data = await res.json();
+        if (data.descriptions && data.descriptions.length > 0) {
+          keywords = buildLiveKeywords(data.descriptions, family);
+          jobCount = data.count;
+          source   = 'live';
+        }
       }
     } catch {
-      // fall through to static fallback
+      // Network error — fall through to static fallback
     } finally {
       setIsLoading(false);
     }
